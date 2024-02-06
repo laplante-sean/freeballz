@@ -24,7 +24,7 @@ script = ExtResource("1")
 [node name="HUD" parent="HUDLayer" instance=ExtResource("2_1u6pm")]
 
 [node name="LaunchPointComponent" type="Marker2D" parent="."]
-position = Vector2(540, 1720)
+position = Vector2(540, 1705)
 script = ExtResource("3_iypvm")
 
 [node name="Boundaries" type="Node2D" parent="."]
@@ -35,7 +35,7 @@ position = Vector2(540, 67)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Ceiling"]
 shape = SubResource("RectangleShape2D_gvo4e")
 
-[node name="Floor" type="StaticBody2D" parent="Boundaries"]
+[node name="Floor" type="StaticBody2D" parent="Boundaries" groups=["GameFloor"]]
 position = Vector2(540, 1820)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Floor"]
@@ -52,5 +52,7 @@ position = Vector2(1105, 960)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RightWall"]
 shape = SubResource("RectangleShape2D_6ldlo")
+
+[node name="Blocks" type="Node2D" parent="."]
 
 [connection signal="fire" from="LaunchPointComponent" to="." method="_on_launch_point_component_fire"]

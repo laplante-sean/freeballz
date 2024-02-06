@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c5udih8x1268d"]
+
+[ext_resource type="Script" path="res://game/stats/game_stats.gd" id="1_40wvc"]
+
+[resource]
+script = ExtResource("1_40wvc")
+ball_radius = 15.0
+ball_speed = 1500.0
+ball_color = Color(1, 1, 1, 1)

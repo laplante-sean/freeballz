@@ -3,17 +3,16 @@ class_name LaunchPointComponent
 
 signal fire(dir: Vector2)
 
-@export var color: Color = Color.WHITE
-@export var width: float = 3.0
-@export var antialiased: bool = true
 @export var max_shot_lines: int = 3
-@export var ball_radius: float = 15.0
 
 var screen_size: Vector2 = Vector2.ZERO
 var touching: bool = false
 var shot_direction: Vector2 = Vector2.ZERO
 var ray_casts: Array[RayCast2D] = []
 var render_count: int = 1 : set = _set_render_count
+var enabled: bool = true
+
+@onready var game_stats: GameStats = Utils.get_game_stats()
 
 
 func _ready():
@@ -31,7 +30,7 @@ func _process(_delta):
 
 
 func _draw():
-    if touching:
+    if touching and enabled:
         draw_shot_line()
 
 
@@ -62,14 +61,17 @@ func draw_shot_line():
         target = to_local(ray_cast_2d.get_collision_point())
         normal = ray_cast_2d.get_collision_normal()
         
-        var adjust = normal * ball_radius
+        var adjust = normal * game_stats.ball_radius
         adjust = Vector2(target.x, target.y) + adjust
-        target = target.move_toward(adjust, ball_radius)
-        draw_circle(target, ball_radius, color)
-        draw_line(start, target, color, width, antialiased)
+        target = target.move_toward(adjust, game_stats.ball_radius)
+        draw_circle(target, game_stats.ball_radius, game_stats.ball_color)
+        draw_line(start, target, game_stats.shot_line_color, game_stats.shot_line_width, game_stats.shot_line_antialiased)
 
 
 func _input(event):
+    if not enabled:
+        return
+
     if event is InputEventScreenTouch:
         if event.is_pressed():
             touching = true
