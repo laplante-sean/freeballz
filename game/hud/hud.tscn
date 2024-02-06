@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkw4tlmudbssg"]
+
+[ext_resource type="Texture2D" uid="uid://doji4e83dr6id" path="res://icon.png" id="1_2hgoy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3qso7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a72a5"]
+
+[node name="HUD" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 135)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TopPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="TopPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "999999999999"
+
+[node name="VSeparator" type="VSeparator" parent="TopPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3qso7")
+
+[node name="NumBallsLabel" type="Label" parent="TopPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "999999999999"
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_a72a5")
+
+[node name="BottomPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="BottomPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="BottomPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("1_2hgoy")
+stretch_mode = 5
