@@ -55,4 +55,5 @@ shape = SubResource("RectangleShape2D_6ldlo")
 
 [node name="Blocks" type="Node2D" parent="."]
 
+[connection signal="balls_down_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_balls_down_button_pressed"]
 [connection signal="fire" from="LaunchPointComponent" to="." method="_on_launch_point_component_fire"]

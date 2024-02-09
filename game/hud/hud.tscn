@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkw4tlmudbssg"]
+[gd_scene load_steps=6 format=3 uid="uid://dkw4tlmudbssg"]
 
 [ext_resource type="Texture2D" uid="uid://doji4e83dr6id" path="res://icon.png" id="1_2hgoy"]
+[ext_resource type="Script" path="res://game/hud/hud.gd" id="1_eqjgb"]
+[ext_resource type="Script" path="res://game/components/held_button_activator_component.gd" id="3_4quje"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3qso7"]
 
@@ -12,6 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_eqjgb")
 
 [node name="TopPanel" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(0, 135)
@@ -25,7 +28,7 @@ theme_override_constants/margin_right = 25
 [node name="HBoxContainer" type="HBoxContainer" parent="TopPanel/MarginContainer"]
 layout_mode = 2
 
-[node name="ScoreLabel" type="Label" parent="TopPanel/MarginContainer/HBoxContainer"]
+[node name="CoinLabel" type="Label" parent="TopPanel/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "999999999999"
@@ -56,11 +59,20 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="BottomPanel/MarginContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="BottomPanel/MarginContainer"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="BottomPanel/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomPanel/MarginContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="BallsDownButton" type="TextureButton" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 texture_normal = ExtResource("1_2hgoy")
 stretch_mode = 5
+
+[node name="BallsDownHeldButtonActivator" type="Node2D" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/BallsDownButton"]
+script = ExtResource("3_4quje")
+
+[connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/BallsDownButton/BallsDownHeldButtonActivator" to="." method="_on_balls_down_held_button_activator_pressed"]

@@ -1,19 +1,20 @@
 extends CharacterBody2D
 class_name Block
 
+var max_health: int = 1
 var health: int = 1 : set = set_health
 var width: int = 50
-var color: Color = Color.RED
 var collision_shape : RectangleShape2D = null
 
+@onready var game_stats = Utils.get_game_stats()
 @onready var collider = $Collider
 @onready var label = $Label
 
 
-func setup(w: int, c: Color, h: int):
-    width = w
-    color = c
-    health = h
+func setup(b_width: int, b_health: int):
+    width = b_width
+    health = b_health
+    max_health = b_health
 
 
 func _ready():
@@ -27,6 +28,14 @@ func _ready():
     label.text = str(health)
 
 
+func get_block_color() -> Color:
+    var hue_angle = game_stats.block_hue_start
+    hue_angle = ((hue_angle + (health * 15)) + health)
+    var hue = hue_angle / 360
+    hue -= int(hue)
+    return Color.from_hsv(hue, game_stats.block_saturation / 100.0, game_stats.block_brightness / 100.0)
+
+
 func _draw():
     var points : PackedVector2Array = PackedVector2Array([
         Vector2.ZERO,
@@ -35,7 +44,7 @@ func _draw():
         Vector2(0, width)
     ])
 
-    draw_colored_polygon(points, color)
+    draw_colored_polygon(points, get_block_color())
 
 
 func _process(_delta):
