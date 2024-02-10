@@ -17,22 +17,50 @@ var balls_out: int = 0
 var show_shot_ball: bool = true
 var shot_cancelled: bool = false
 var first_row: bool = true
+var top_offset: float = 0.0
 
 @onready var blocks = $Blocks
 @onready var game_stats = Utils.get_game_stats()
 @onready var player_stats = Utils.get_player_stats()
 @onready var launch_point = $LaunchPointComponent
+@onready var ceiling_collision_shape_2d = $Boundaries/Ceiling/CollisionShape2D
+@onready var left_wall = $Boundaries/LeftWall
+@onready var right_wall = $Boundaries/RightWall
+@onready var floor = $Boundaries/Floor
+@onready var left_wall_collision_shape_2d = $Boundaries/LeftWall/CollisionShape2D
+@onready var right_wall_collision_shape_2d = $Boundaries/RightWall/CollisionShape2D
 
 
 func _ready():
     screen_size = get_viewport().get_visible_rect().size
+    _adjust_boundaries()
+
     block_width = int(floor(screen_size.x / game_stats.block_columns)) - game_stats.block_spacing
     launch_point.global_position = game_stats.launch_point_global_position
+    top_offset = ceiling_collision_shape_2d.shape.size.y
 
     print("Screen Size: ", screen_size)
     print("Block Width: ", block_width)
 
     create_row()
+
+
+func _adjust_boundaries():
+    # Designed for 1080x1920 but the scale is set to expand in the height.
+    # So on taller/shorter devices we need to adjust the position of the floor
+    # and the size of the wall colliders
+    screen_size = get_viewport().get_visible_rect().size
+    var offset = Vector2(0, screen_size.y - 1920)  # Could be negative for smaller displays
+
+    # Adjust floor and launch point
+    floor.global_position += offset
+    game_stats.launch_point_global_position += offset
+
+    # Adjust left and right boundaries
+    left_wall.global_position.y = screen_size.y / 2
+    right_wall.global_position.y = screen_size.y / 2
+    left_wall_collision_shape_2d.shape.size.y = screen_size.y
+    right_wall_collision_shape_2d.shape.size.y += screen_size.y
 
 
 func _process(_delta):
@@ -72,14 +100,14 @@ func create_block(x: float, y: float):
 func create_coin(x: float, y: float):
     var coin = CoinScene.instantiate()
     blocks.add_child(coin)
-    coin.global_position = Vector2(x + (block_width / 2), y + (block_width / 2))
+    coin.global_position = Vector2(x + (block_width / 2.0), y + (block_width / 2.0))
 
 
 func create_pickup_ball(x: float, y: float):
     var ball = BallScene.instantiate()
     ball.is_colletible = true
     blocks.add_child(ball)
-    ball.global_position = Vector2(x + (block_width / 2), y + (block_width / 2))
+    ball.global_position = Vector2(x + (block_width / 2.0), y + (block_width / 2.0))
 
 
 func balls_down():
@@ -91,20 +119,19 @@ func balls_down():
 
 
 func create_row():
-    var x: float = 1
-    var y: float = 0
+    var x: float = game_stats.block_spacing / 2
+    var y: float = top_offset
     var coin_column: int = game_stats.block_columns
     var pickup_ball_column: int = game_stats.block_columns
 
     # Level starts at 0 so we increment first
     player_stats.level += 1
 
-    if not first_row:
-        # Only generate coins and balls after first level
-        coin_column = randi_range(0, game_stats.block_columns - 1)
-        pickup_ball_column = randi_range(1, game_stats.block_columns - 1)
-        if coin_column == pickup_ball_column:
-            pickup_ball_column -= 1
+    # Generate a coin and pickup ball per row
+    coin_column = randi_range(0, game_stats.block_columns - 1)
+    pickup_ball_column = randi_range(1, game_stats.block_columns - 1)
+    if coin_column == pickup_ball_column:
+        pickup_ball_column -= 1
 
     # Add blocks to the row
     for col in range(game_stats.block_columns):
@@ -116,11 +143,16 @@ func create_row():
             create_block(x, y)
         x += block_width + game_stats.block_spacing
 
+    _move_down()
+    first_row = false
+
+
+func _move_down():
     # Tween the row down
     var tween = get_tree().create_tween()
-    var tween_dest = blocks.position + Vector2(0, block_width + game_stats.block_spacing)
+    var tween_dest = Vector2.ZERO
+    tween_dest = blocks.position + Vector2(0, block_width + game_stats.block_spacing)
     tween.tween_property(blocks, "position", tween_dest, 0.25)
-    first_row = false
 
 
 func _set_game_state(value: GameState):

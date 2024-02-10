@@ -32,7 +32,8 @@ window/size/viewport_height=1920
 window/size/window_width_override=540
 window/size/window_height_override=960
 window/stretch/mode="canvas_items"
-window/handheld/orientation="portrait"
+window/stretch/aspect="keep_width"
+window/handheld/orientation=1
 
 [gui]
 
@@ -55,6 +56,8 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.0823529, 0.145098, 0.184314, 1)
 environment/defaults/default_environment="res://default_env.tres"
 quality/driver/driver_name="GLES2"

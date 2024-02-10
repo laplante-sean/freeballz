@@ -64,6 +64,7 @@ func collect():
 func drop():
     move_state = MovementState.MOVING
     direction = Vector2.DOWN
+    set_collision_mask_value(2, false)
 
 
 func _physics_process(delta):
@@ -89,7 +90,6 @@ func return_ball(delta):
 
 func move_ball(delta):
     velocity = direction * game_stats.ball_speed
-
     var collision = move_and_collide(velocity * delta) as KinematicCollision2D
     if collision:
         var collider = collision.get_collider()

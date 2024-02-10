@@ -1,10 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6wwrdvtn6qql"]
+[gd_scene load_steps=5 format=3 uid="uid://c6wwrdvtn6qql"]
 
 [ext_resource type="Script" path="res://game/menu/main_menu.gd" id="1_15j84"]
+[ext_resource type="Script" path="res://game/components/touch_sparkles_component.gd" id="2_j5qll"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_t5wkg"]
 color = Color(1, 1, 1, 1)
 thickness = 10
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6d041"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2, 2, 2)
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 980, 0)
+scale_min = 10.0
+scale_max = 10.0
 
 [node name="MainMenu" type="CenterContainer"]
 anchors_preset = 15
@@ -49,6 +62,15 @@ text = "New Game"
 layout_mode = 2
 theme_override_font_sizes/font_size = 96
 text = "Options"
+
+[node name="TouchSparklesComponent" type="GPUParticles2D" parent="."]
+position = Vector2(540, 200)
+emitting = false
+amount = 300
+process_material = SubResource("ParticleProcessMaterial_6d041")
+lifetime = 10.0
+trail_lifetime = 0.1
+script = ExtResource("2_j5qll")
 
 [connection signal="pressed" from="Menu/CenterContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]

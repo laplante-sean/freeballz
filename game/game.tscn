@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://game/components/launch_point_component.gd" id="3_iypvm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gvo4e"]
-size = Vector2(1080, 135)
+size = Vector2(1080, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vfaku"]
 size = Vector2(1080, 200)
@@ -30,7 +30,7 @@ script = ExtResource("3_iypvm")
 [node name="Boundaries" type="Node2D" parent="."]
 
 [node name="Ceiling" type="StaticBody2D" parent="Boundaries"]
-position = Vector2(540, 67)
+position = Vector2(540, 49)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Ceiling"]
 shape = SubResource("RectangleShape2D_gvo4e")

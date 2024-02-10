@@ -8,7 +8,7 @@ signal fire(dir: Vector2)
 var screen_size: Vector2 = Vector2.ZERO
 var touching: bool = false
 var shot_direction: Vector2 = Vector2.ZERO
-var ray_casts: Array[RayCast2D] = []
+var shape_casts: Array[ShapeCast2D] = []
 var render_count: int = 1 : set = _set_render_count
 var enabled: bool = true
 
@@ -18,11 +18,15 @@ var enabled: bool = true
 func _ready():
     screen_size = get_viewport().get_visible_rect().size
     for _idx in range(max_shot_lines):
-        var tmp = RayCast2D.new()
-        tmp.set_collision_mask_value(1, true)
-        tmp.set_collision_mask_value(2, true)
-        add_child(tmp)
-        ray_casts.append(tmp)
+        var tmp_shape_cast: ShapeCast2D = ShapeCast2D.new()
+        var tmp_shape: CircleShape2D = CircleShape2D.new()
+        tmp_shape.radius = game_stats.ball_radius
+        tmp_shape_cast.shape = tmp_shape
+
+        tmp_shape_cast.set_collision_mask_value(1, true) # world
+        tmp_shape_cast.set_collision_mask_value(2, true) # blocks
+        add_child(tmp_shape_cast)
+        shape_casts.append(tmp_shape_cast)
 
 
 func _process(_delta):
@@ -36,7 +40,7 @@ func _draw():
 
 func draw_shot_line():
     var global_mouse_pos: Vector2 = get_global_mouse_position()
-    shot_direction = global_position.direction_to(global_mouse_pos).normalized()
+    shot_direction = global_position.direction_to(global_mouse_pos)
     var target: Vector2 = Vector2.ZERO
     var normal: Vector2 = Vector2.ZERO
 
@@ -48,22 +52,23 @@ func draw_shot_line():
 
     var direction = shot_direction
     for idx in range(render_count):
-        var ray_cast_2d = ray_casts[idx]
+        var shape_cast_2d: ShapeCast2D = shape_casts[idx]
         var start = Vector2(target)
-        ray_cast_2d.position = start
+        shape_cast_2d.position = start
 
         if idx > 0:
             direction = direction.bounce(normal)
 
         target = direction * screen_size.y
-        ray_cast_2d.target_position = target
-        ray_cast_2d.force_raycast_update()
-        target = to_local(ray_cast_2d.get_collision_point())
-        normal = ray_cast_2d.get_collision_normal()
-        
+        shape_cast_2d.target_position = target
+        shape_cast_2d.force_shapecast_update()
+        target = to_local(shape_cast_2d.get_collision_point(0))
+        normal = shape_cast_2d.get_collision_normal(0)
+
         var adjust = normal * game_stats.ball_radius
         adjust = Vector2(target.x, target.y) + adjust
         target = target.move_toward(adjust, game_stats.ball_radius)
+        
         draw_circle(target, game_stats.ball_radius, game_stats.ball_color)
         draw_line(start, target, game_stats.shot_line_color, game_stats.shot_line_width, game_stats.shot_line_antialiased)
 

@@ -7,14 +7,15 @@ class_name GameStats
 @export var ball_speed: float = 1500.0
 @export var ball_color: Color = Color.WHITE
 
-@export var pickup_ball_animation_radius_start = 20.0
-@export var pickup_ball_animation_radius_end = 30.0
-@export var pickup_ball_animation_duration = 0.75
-@export var pickup_ball_collision_radius = 45.0
+@export var pickup_ball_animation_radius_start: float = 20.0
+@export var pickup_ball_animation_radius_end: float = 30.0
+@export var pickup_ball_animation_duration: float = 0.75
+@export var pickup_ball_collision_radius: float = 65.0
 
 @export var coin_radius: float = 20.0
 @export var coin_color: Color = Color.GOLD
 @export var coin_line_thickness: float = 5.0
+@export var coin_collision_radius: float = 65.0
 
 @export var shot_line_color: Color = Color.WHITE
 @export var shot_line_width: float = 5.0
