@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://doc1xbj2ntru5"]
+[gd_scene load_steps=9 format=3 uid="uid://doc1xbj2ntru5"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dkw4tlmudbssg" path="res://game/hud/hud.tscn" id="2_1u6pm"]
 [ext_resource type="Script" path="res://game/components/launch_point_component.gd" id="3_iypvm"]
+[ext_resource type="Script" path="res://game/components/go_back_handler_componenet.gd" id="4_nxcnk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gvo4e"]
 size = Vector2(1080, 100)
@@ -54,6 +55,9 @@ position = Vector2(1105, 960)
 shape = SubResource("RectangleShape2D_6ldlo")
 
 [node name="Blocks" type="Node2D" parent="."]
+
+[node name="GoBackHandlerComponent" type="Node" parent="."]
+script = ExtResource("4_nxcnk")
 
 [connection signal="balls_down_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_balls_down_button_pressed"]
 [connection signal="fire" from="LaunchPointComponent" to="." method="_on_launch_point_component_fire"]

@@ -1,0 +1,84 @@
+[gd_scene load_steps=4 format=3 uid="uid://dygvivfiu0pbf"]
+
+[ext_resource type="Script" path="res://game/components/go_back_handler_componenet.gd" id="1_b0xbk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s50u7"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_2lwyt"]
+color = Color(1, 1, 1, 1)
+thickness = 15
+
+[node name="Options" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 96
+text = "< Back"
+
+[node name="VSeparator" type="VSeparator" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 580
+theme_override_styles/separator = SubResource("StyleBoxEmpty_s50u7")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+theme_override_styles/separator = SubResource("StyleBoxLine_2lwyt")
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="BallsTab" type="TabContainer" parent="MarginContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 56
+
+[node name="Balls" type="Panel" parent="MarginContainer2/BallsTab"]
+layout_mode = 2
+
+[node name="Coins" type="Panel" parent="MarginContainer2/BallsTab"]
+visible = false
+layout_mode = 2
+
+[node name="Blocks" type="Panel" parent="MarginContainer2/BallsTab"]
+visible = false
+layout_mode = 2
+
+[node name="GoBackHandlerComponent" type="Node" parent="."]
+script = ExtResource("1_b0xbk")
+
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/BackButton" to="GoBackHandlerComponent" method="_on_go_back"]

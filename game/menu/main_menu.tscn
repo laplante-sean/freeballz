@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6wwrdvtn6qql"]
+[gd_scene load_steps=6 format=3 uid="uid://c6wwrdvtn6qql"]
 
 [ext_resource type="Script" path="res://game/menu/main_menu.gd" id="1_15j84"]
 [ext_resource type="Script" path="res://game/components/touch_sparkles_component.gd" id="2_j5qll"]
+[ext_resource type="Script" path="res://game/components/go_back_handler_componenet.gd" id="3_bcjtv"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_t5wkg"]
 color = Color(1, 1, 1, 1)
@@ -71,6 +72,9 @@ process_material = SubResource("ParticleProcessMaterial_6d041")
 lifetime = 10.0
 trail_lifetime = 0.1
 script = ExtResource("2_j5qll")
+
+[node name="GoBackHandlerComponent" type="Node" parent="."]
+script = ExtResource("3_bcjtv")
 
 [connection signal="pressed" from="Menu/CenterContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
