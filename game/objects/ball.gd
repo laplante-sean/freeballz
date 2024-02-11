@@ -6,13 +6,13 @@ enum MovementState {
     RETURNING
 }
 
-@export var return_proximity: float = 15.0
 @export var is_colletible: bool = false
 
 var direction: Vector2 = Vector2.ZERO
 var move_state: MovementState = MovementState.MOVING
 var animated_radius = 0
 var collectible_tween: Tween
+var return_proximity: float = 15.0
 
 @onready var game_stats: GameStats = Utils.get_game_stats()
 @onready var player_stats: PlayerStats = Utils.get_player_stats()
@@ -22,6 +22,7 @@ var collectible_tween: Tween
 func _ready():
     velocity = Vector2.ZERO
     collision_shape_2d.shape.radius = game_stats.ball_radius
+    return_proximity = game_stats.ball_radius
 
     if is_colletible:
         setup_collectible_ball()

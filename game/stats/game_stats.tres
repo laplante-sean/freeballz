@@ -1,9 +1,27 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c5udih8x1268d"]
+[gd_resource type="Resource" script_class="GameStats" load_steps=2 format=3 uid="uid://c5udih8x1268d"]
 
 [ext_resource type="Script" path="res://game/stats/game_stats.gd" id="1_40wvc"]
 
 [resource]
 script = ExtResource("1_40wvc")
-ball_radius = 15.0
-ball_speed = 1500.0
+ball_spawn_timer = 0.15
+ball_radius = 20.0
+ball_speed = 2000.0
 ball_color = Color(1, 1, 1, 1)
+pickup_ball_animation_radius_start = 25.0
+pickup_ball_animation_radius_end = 35.0
+pickup_ball_animation_duration = 0.75
+pickup_ball_collision_radius = 65.0
+coin_radius = 25.0
+coin_color = Color(1, 0.843137, 0, 1)
+coin_line_thickness = 5.0
+coin_collision_radius = 65.0
+shot_line_color = Color(1, 1, 1, 1)
+shot_line_width = 8.0
+shot_line_antialiased = true
+block_columns = 7
+block_spacing = 2
+block_hue_start = 130.0
+block_saturation = 50.0
+block_brightness = 45.0
+launch_point_global_position = Vector2(540, 1720)

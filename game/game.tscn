@@ -24,7 +24,7 @@ script = ExtResource("1")
 [node name="HUD" parent="HUDLayer" instance=ExtResource("2_1u6pm")]
 
 [node name="LaunchPointComponent" type="Marker2D" parent="."]
-position = Vector2(540, 1705)
+position = Vector2(540, 1720)
 script = ExtResource("3_iypvm")
 
 [node name="Boundaries" type="Node2D" parent="."]

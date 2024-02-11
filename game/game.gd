@@ -39,8 +39,11 @@ func _ready():
     launch_point.global_position = game_stats.launch_point_global_position
     top_offset = ceiling_collision_shape_2d.shape.size.y
 
-    print("Screen Size: ", screen_size)
-    print("Block Width: ", block_width)
+    print("Screen Size        : ", screen_size)
+    print("Block Width        : ", block_width)
+    print("Ball Radius        : ", game_stats.ball_radius)
+    print("Block columns      : ", game_stats.block_columns)
+    print("Block spacing      : ", game_stats.block_spacing)
 
     create_row()
 
@@ -54,7 +57,7 @@ func _adjust_boundaries():
 
     # Adjust floor and launch point
     floor.global_position += offset
-    game_stats.launch_point_global_position += offset
+    game_stats.launch_point_global_position += offset - Vector2(0, game_stats.ball_radius)
 
     # Adjust left and right boundaries
     left_wall.global_position.y = screen_size.y / 2
@@ -172,6 +175,7 @@ func _on_ball_tree_exiting():
 func _on_launch_point_component_fire(dir: Vector2):
     game_state = GameState.EXECUTE_SHOT
     show_shot_ball = false
+    shot_cancelled = false
 
     for _idx in range(player_stats.balls):
         var ball = BallScene.instantiate()

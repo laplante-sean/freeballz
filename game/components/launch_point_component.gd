@@ -68,7 +68,7 @@ func draw_shot_line():
         var adjust = normal * game_stats.ball_radius
         adjust = Vector2(target.x, target.y) + adjust
         target = target.move_toward(adjust, game_stats.ball_radius)
-        
+
         draw_circle(target, game_stats.ball_radius, game_stats.ball_color)
         draw_line(start, target, game_stats.shot_line_color, game_stats.shot_line_width, game_stats.shot_line_antialiased)
 
