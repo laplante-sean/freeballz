@@ -32,23 +32,10 @@ class_name GameStats
 
 func save_stats():
     return {
-        "ball_spawn_timer": ball_spawn_timer,
-        "ball_radius": ball_radius,
         "ball_speed": ball_speed,
         "ball_color": ball_color,
-        "pickup_ball_animation_radius_start": pickup_ball_animation_radius_start,
-        "pickup_ball_animation_radius_end": pickup_ball_animation_radius_end,
-        "pickup_ball_animation_duration": pickup_ball_animation_duration,
-        "pickup_ball_collision_radius": pickup_ball_collision_radius,
-        "coin_radius": coin_radius,
         "coin_color": coin_color,
-        "coin_line_thickness": coin_line_thickness,
-        "coin_collision_radius": coin_collision_radius,
         "shot_line_color": shot_line_color,
-        "shot_line_width": shot_line_width,
-        "shot_line_antialiased": shot_line_antialiased,
-        "block_columns": block_columns,
-        "block_spacing": block_spacing,
         "block_hue_start": block_hue_start,
         "block_saturation": block_saturation,
         "block_brightness": block_brightness
@@ -56,5 +43,10 @@ func save_stats():
 
 
 func load_stats(obj: Dictionary):
-    pass
-    
+    ball_speed = obj.ball_speed
+    ball_color = obj.ball_color
+    coin_color = obj.coin_color
+    shot_line_color = obj.shot_line_color
+    block_hue_start = obj.block_hue_start
+    block_saturation = obj.block_saturation
+    block_brightness = obj.block_brightness

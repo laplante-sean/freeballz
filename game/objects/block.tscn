@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmxj7jvcja368"]
+[gd_scene load_steps=3 format=3 uid="uid://bmxj7jvcja368"]
 
 [ext_resource type="Script" path="res://game/objects/block.gd" id="1_ncyvw"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_oeanq"]
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)
 
 [node name="Block" type="CharacterBody2D"]
 z_index = 1
@@ -9,6 +12,9 @@ collision_mask = 0
 script = ExtResource("1_ncyvw")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_oeanq")
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 8

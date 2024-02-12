@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://doc1xbj2ntru5"]
+[gd_scene load_steps=10 format=3 uid="uid://doc1xbj2ntru5"]
 
 [ext_resource type="Script" path="res://game/game.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dkw4tlmudbssg" path="res://game/hud/hud.tscn" id="2_1u6pm"]
@@ -10,6 +10,9 @@ size = Vector2(1080, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vfaku"]
 size = Vector2(1080, 200)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ywb4t"]
+polygon = PackedVector2Array(-562, -101, 568, -98, 569, 122, -565, 118)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28j6n"]
 size = Vector2(50, 1920)
@@ -41,6 +44,9 @@ position = Vector2(540, 1820)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Floor"]
 shape = SubResource("RectangleShape2D_vfaku")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Boundaries/Floor"]
+occluder = SubResource("OccluderPolygon2D_ywb4t")
 
 [node name="LeftWall" type="StaticBody2D" parent="Boundaries"]
 position = Vector2(-25, 960)

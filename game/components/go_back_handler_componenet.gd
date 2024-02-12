@@ -23,7 +23,8 @@ func _on_go_back():
         get_tree().quit(0)
 
     if path == "res://game/game.tscn":
-        Utils.save_game()
+        #Utils.save_game()
+        pass
 
     var dest = go_back_map[path]
     if dest == "close":
