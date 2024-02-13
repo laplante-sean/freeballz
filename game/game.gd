@@ -35,7 +35,7 @@ func _ready():
     screen_size = get_viewport().get_visible_rect().size
     _adjust_boundaries()
 
-    block_width = int(floor(screen_size.x / game_stats.block_columns)) - game_stats.block_spacing
+    block_width = Utils.get_block_width()
     launch_point.global_position = game_stats.launch_point_global_position
     top_offset = ceiling_collision_shape_2d.shape.size.y
 
@@ -45,7 +45,10 @@ func _ready():
     print("Block columns      : ", game_stats.block_columns)
     print("Block spacing      : ", game_stats.block_spacing)
 
-    create_row()
+    if Utils.is_new_game:
+        create_row()
+    elif not Utils.load_game(blocks):
+        create_row()
 
 
 func _adjust_boundaries():
@@ -97,7 +100,8 @@ func create_block(x: float, y: float):
     var block_value = get_block_value()
     block.setup(block_width, block_value)
     blocks.add_child(block)
-    block.global_position = Vector2(x, y)
+    block.global_position = Vector2(x + (block_width / 2.0), y + (block_width / 2.0))
+    block.hit_game_floor.connect(_on_block_hit_game_floor)
 
 
 func create_coin(x: float, y: float):
@@ -193,3 +197,8 @@ func _on_launch_point_component_fire(dir: Vector2):
 
 func _on_hud_balls_down_button_pressed():
     balls_down()
+
+
+func _on_block_hit_game_floor():
+    Utils.clear_save_game()
+    get_tree().change_scene_to_file("res://game/menu/main_menu.tscn")

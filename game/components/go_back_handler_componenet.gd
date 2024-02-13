@@ -14,6 +14,13 @@ func _notification(what: int) -> void:
         NOTIFICATION_WM_GO_BACK_REQUEST:
             # Handle Android back button
             _on_go_back()
+        NOTIFICATION_WM_CLOSE_REQUEST:
+            save_game()
+
+
+func save_game():
+    var blocks = get_tree().current_scene.find_child("Blocks") as Node2D
+    Utils.save_game(blocks)
 
 
 func _on_go_back():
@@ -23,8 +30,7 @@ func _on_go_back():
         get_tree().quit(0)
 
     if path == "res://game/game.tscn":
-        #Utils.save_game()
-        pass
+        save_game()
 
     var dest = go_back_map[path]
     if dest == "close":

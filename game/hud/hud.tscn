@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dkw4tlmudbssg"]
+[gd_scene load_steps=8 format=3 uid="uid://dkw4tlmudbssg"]
 
 [ext_resource type="Texture2D" uid="uid://doji4e83dr6id" path="res://icon.png" id="1_2hgoy"]
 [ext_resource type="Script" path="res://game/hud/hud.gd" id="1_eqjgb"]
+[ext_resource type="Script" path="res://game/components/coin_ui_component.gd" id="2_56jhy"]
 [ext_resource type="Script" path="res://game/components/held_button_activator_component.gd" id="3_4quje"]
+[ext_resource type="Script" path="res://game/components/ball_ui_component.gd" id="3_c0o5s"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3qso7"]
 
@@ -33,10 +35,22 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "999999999999"
 
+[node name="CoinUIComponent" type="Control" parent="TopPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_56jhy")
+
 [node name="VSeparator" type="VSeparator" parent="TopPanel/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_3qso7")
+
+[node name="BallUIComponent" type="Control" parent="TopPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("3_c0o5s")
 
 [node name="NumBallsLabel" type="Label" parent="TopPanel/MarginContainer/HBoxContainer"]
 layout_mode = 2

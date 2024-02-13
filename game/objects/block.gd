@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Block
 
+signal hit_game_floor()
+
 const BlockBreakParticlesComponentScene = preload("res://game/components/block_break_particles_component.tscn")
 
 var max_health: int = 1
@@ -9,6 +11,10 @@ var width: int = 50
 var collision_shape : RectangleShape2D = null
 var current_color: Color = Color.WHITE
 var starting_color: Color = Color.WHITE
+var top_left: Vector2 = Vector2.ZERO
+var top_right: Vector2 = Vector2.ZERO
+var bottom_right: Vector2 = Vector2.ZERO
+var bottom_left: Vector2 = Vector2.ZERO
 
 @onready var game_stats = Utils.get_game_stats()
 @onready var collider = $Collider
@@ -20,16 +26,16 @@ func setup(b_width: int, b_health: int):
     width = b_width
     health = b_health
     max_health = b_health
+    top_left = Vector2(-width / 2.0, -width / 2.0)
+    top_right = Vector2(width / 2.0, -width / 2.0)
+    bottom_right = Vector2(width / 2.0, width / 2.0)
+    bottom_left = Vector2(-width / 2.0, width / 2.0)
 
 
 func _ready():
-    collision_shape = RectangleShape2D.new()
-    collision_shape.extents = Vector2(width / 2.0, width / 2.0)
-    collider.shape = collision_shape
-    collider.position.x += width / 2.0
-    collider.position.y += width / 2.0
-    label.position.x += width / 2.0
-    label.position.y += width / 2.0
+    # NOTE: The collider, and the BottomDetector/Collider share the same collision shape
+    # so we only need to set the extents of one.
+    collider.shape.extents = Vector2(width / 2.0, width / 2.0)
     label.text = str(health)
     starting_color = get_block_color()
 
@@ -43,10 +49,10 @@ func setup_occluder():
         return
 
     # Setup the corners of the polygon
-    occluder.polygon[0] = Vector2(0, 0)  # Top left
-    occluder.polygon[1] = Vector2(width, 0)  # Top right
-    occluder.polygon[2] = Vector2(width, width)  # Bottom right
-    occluder.polygon[3] = Vector2(0, width)  # Bottom left
+    occluder.polygon[0] = top_left
+    occluder.polygon[1] = top_right
+    occluder.polygon[2] = bottom_right
+    occluder.polygon[3] = bottom_left
 
 
 func get_block_color() -> Color:
@@ -60,12 +66,7 @@ func get_block_color() -> Color:
 
 func _draw():
     var points : PackedVector2Array = PackedVector2Array([
-        Vector2.ZERO,
-        Vector2(width, 0),
-        Vector2(width, width),
-        Vector2(0, width)
-    ])
-
+        top_left, top_right, bottom_right, bottom_left])
     draw_colored_polygon(points, get_block_color())
 
 
@@ -87,11 +88,16 @@ func explode():
     effect.block_color = current_color
     effect.block_width = width
     get_tree().current_scene.add_child(effect)
-    effect.global_position = global_position + Vector2(width/2.0, width/2.0)
+    effect.global_position = global_position
 
 
 func hit():
     var hit_tween = get_tree().create_tween()
-    hit_tween.tween_property(self, "scale", Vector2(1.05, 1.05), 0.15)
+    hit_tween.tween_property(self, "scale", Vector2(1.075, 1.075), 0.10)
     hit_tween.chain().tween_property(self, "scale", Vector2(1, 1), 0.15)
     health -= 1
+
+
+func _on_bottom_detector_body_entered(body):
+    if body.is_in_group("GameFloor"):
+        hit_game_floor.emit()

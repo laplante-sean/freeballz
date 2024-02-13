@@ -33,9 +33,9 @@ class_name GameStats
 func save_stats():
     return {
         "ball_speed": ball_speed,
-        "ball_color": ball_color,
-        "coin_color": coin_color,
-        "shot_line_color": shot_line_color,
+        "ball_color": var_to_str(ball_color),
+        "coin_color": var_to_str(coin_color),
+        "shot_line_color": var_to_str(shot_line_color),
         "block_hue_start": block_hue_start,
         "block_saturation": block_saturation,
         "block_brightness": block_brightness
@@ -44,9 +44,9 @@ func save_stats():
 
 func load_stats(obj: Dictionary):
     ball_speed = obj.ball_speed
-    ball_color = obj.ball_color
-    coin_color = obj.coin_color
-    shot_line_color = obj.shot_line_color
+    ball_color = str_to_var(obj.ball_color)
+    coin_color = str_to_var(obj.coin_color)
+    shot_line_color = str_to_var(obj.shot_line_color)
     block_hue_start = obj.block_hue_start
     block_saturation = obj.block_saturation
     block_brightness = obj.block_brightness

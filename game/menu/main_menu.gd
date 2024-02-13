@@ -14,7 +14,7 @@ func start_game():
 
 
 func _on_continue_button_pressed():
-    # Load the save and then
+    Utils.is_new_game = false
     start_game()
 
 
