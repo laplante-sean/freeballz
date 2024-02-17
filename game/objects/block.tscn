@@ -16,12 +16,6 @@ script = ExtResource("1_ncyvw")
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5y4e4")
 
-[node name="BottomDetector" type="Area2D" parent="."]
-collision_layer = 0
-
-[node name="Collider" type="CollisionShape2D" parent="BottomDetector"]
-shape = SubResource("RectangleShape2D_5y4e4")
-
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_oeanq")
 
@@ -41,5 +35,3 @@ theme_override_font_sizes/font_size = 36
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[connection signal="body_entered" from="BottomDetector" to="." method="_on_bottom_detector_body_entered"]

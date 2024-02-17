@@ -15,6 +15,7 @@ var top_left: Vector2 = Vector2.ZERO
 var top_right: Vector2 = Vector2.ZERO
 var bottom_right: Vector2 = Vector2.ZERO
 var bottom_left: Vector2 = Vector2.ZERO
+var floor_pos: float = 0.0
 
 @onready var game_stats = Utils.get_game_stats()
 @onready var collider = $Collider
@@ -38,6 +39,7 @@ func _ready():
     collider.shape.extents = Vector2(width / 2.0, width / 2.0)
     label.text = str(health)
     starting_color = get_block_color()
+    floor_pos = Utils.get_game_floor_y_pos()
 
     setup_occluder()
 
@@ -71,6 +73,9 @@ func _draw():
 
 
 func _process(_delta):
+    if (global_position.y + width / 2.0) >= floor_pos:
+        hit_game_floor.emit()
+
     queue_redraw()
 
 
@@ -96,8 +101,3 @@ func hit():
     hit_tween.tween_property(self, "scale", Vector2(1.075, 1.075), 0.10)
     hit_tween.chain().tween_property(self, "scale", Vector2(1, 1), 0.15)
     health -= 1
-
-
-func _on_bottom_detector_body_entered(body):
-    if body.is_in_group("GameFloor"):
-        hit_game_floor.emit()
