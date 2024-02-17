@@ -101,3 +101,7 @@ func hit():
     hit_tween.tween_property(self, "scale", Vector2(1.075, 1.075), 0.10)
     hit_tween.chain().tween_property(self, "scale", Vector2(1, 1), 0.15)
     health -= 1
+
+
+func destroy():
+    health = 0

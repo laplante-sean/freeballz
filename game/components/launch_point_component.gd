@@ -11,6 +11,7 @@ var shot_direction: Vector2 = Vector2.ZERO
 var shape_casts: Array[ShapeCast2D] = []
 var render_count: int = 1 : set = _set_render_count
 var enabled: bool = true
+var fire_ball: bool = false
 
 @onready var game_stats: GameStats = Utils.get_game_stats()
 
@@ -38,11 +39,29 @@ func _draw():
         draw_shot_line()
 
 
+func update_collisions_masks():
+    for idx in range(max_shot_lines):
+        var shape_cast = shape_casts[idx]
+        if fire_ball:
+            shape_cast.set_collision_mask_value(2, false)  # blocks
+        else:
+            shape_cast.set_collision_mask_value(2, true)  # blocks
+
+
 func draw_shot_line():
     var global_mouse_pos: Vector2 = get_global_mouse_position()
     shot_direction = global_position.direction_to(global_mouse_pos)
     var target: Vector2 = Vector2.ZERO
     var normal: Vector2 = Vector2.ZERO
+    
+    var color = game_stats.shot_line_color
+    var ball_color = game_stats.ball_color
+    if fire_ball:
+        color = game_stats.fire_ball_color
+        ball_color = game_stats.fire_ball_color
+
+    # Handle whether or not we collide with blocks
+    update_collisions_masks()
 
     # If we're at a steep/almost 90 degree angle or more than cancel the shot
     var angle = shot_direction.angle()
@@ -69,8 +88,8 @@ func draw_shot_line():
         adjust = Vector2(target.x, target.y) + adjust
         target = target.move_toward(adjust, game_stats.ball_radius)
 
-        draw_circle(target, game_stats.ball_radius, game_stats.ball_color)
-        draw_line(start, target, game_stats.shot_line_color, game_stats.shot_line_width, game_stats.shot_line_antialiased)
+        draw_circle(target, game_stats.ball_radius, ball_color)
+        draw_line(start, target, color, game_stats.shot_line_width, game_stats.shot_line_antialiased)
 
 
 func _input(event):

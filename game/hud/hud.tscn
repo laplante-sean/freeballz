@@ -89,4 +89,18 @@ stretch_mode = 5
 [node name="BallsDownHeldButtonActivator" type="Node2D" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/BallsDownButton"]
 script = ExtResource("3_4quje")
 
+[node name="ShotLinesButton" type="TextureButton" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture_normal = ExtResource("1_2hgoy")
+stretch_mode = 5
+
+[node name="FireBallButton" type="TextureButton" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture_normal = ExtResource("1_2hgoy")
+stretch_mode = 5
+
 [connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/BallsDownButton/BallsDownHeldButtonActivator" to="." method="_on_balls_down_held_button_activator_pressed"]
+[connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/ShotLinesButton" to="." method="_on_shot_lines_button_pressed"]
+[connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/FireBallButton" to="." method="_on_fire_ball_button_pressed"]

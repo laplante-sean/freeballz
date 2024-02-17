@@ -16,6 +16,7 @@ var game_state: GameState = GameState.PREPARE_SHOT : set = _set_game_state
 var balls_out: int = 0
 var show_shot_ball: bool = true
 var shot_cancelled: bool = false
+var fire_ball: bool = false
 var first_row: bool = true
 var top_offset: float = 0.0
 
@@ -81,8 +82,12 @@ func _process(_delta):
 
 
 func _draw():
+    var color = game_stats.ball_color
+    if fire_ball:
+        color = game_stats.fire_ball_color
+    
     if show_shot_ball:
-        draw_circle(launch_point.position, game_stats.ball_radius, game_stats.ball_color)
+        draw_circle(launch_point.position, game_stats.ball_radius, color)
 
 
 func get_block_value():
@@ -185,14 +190,22 @@ func _on_launch_point_component_fire(dir: Vector2):
         var ball = BallScene.instantiate()
         ball.tree_exiting.connect(_on_ball_tree_exiting)
         launch_point.add_child(ball)
+        ball.fire_ball = fire_ball
         ball.fire(dir)
         balls_out += 1
 
         await get_tree().create_timer(game_stats.ball_spawn_timer).timeout
 
-        if shot_cancelled:
-            shot_cancelled = false
+        if fire_ball:
             break
+        if shot_cancelled:
+            break
+
+    # Cleanup
+    launch_point.render_count = 1
+    shot_cancelled = false
+    fire_ball = false
+    launch_point.fire_ball = false
 
 
 func _on_hud_balls_down_button_pressed():
@@ -202,3 +215,12 @@ func _on_hud_balls_down_button_pressed():
 func _on_block_hit_game_floor():
     Utils.clear_save_game()
     get_tree().change_scene_to_file("res://game/menu/main_menu.tscn")
+
+
+func _on_hud_shot_lines_button_pressed():
+    launch_point.render_count = 3
+
+
+func _on_hud_fire_ball_button_pressed():
+    fire_ball = true
+    launch_point.fire_ball = true

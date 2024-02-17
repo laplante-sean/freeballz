@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbeohopestel0"]
+[gd_scene load_steps=7 format=3 uid="uid://dbeohopestel0"]
 
 [ext_resource type="Script" path="res://game/objects/ball.gd" id="1_cdqem"]
 
@@ -8,6 +8,28 @@ radius = 20.0
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_nvr0n"]
 polygon = PackedVector2Array(-14, -14, -7, -19, 5, -19, 11, -15, 16, -10, 19, 0, 16, 11, 10, 17, -1, 20, -13, 15, -18, 7, -19, -3)
+
+[sub_resource type="Curve" id="Curve_hi5n7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_a65r5"]
+curve = SubResource("Curve_hi5n7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x4j3a"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(15, 8, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, 0, 0)
+spread = 90.0
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+angular_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+scale_min = 8.0
+scale_max = 16.0
+scale_curve = SubResource("CurveTexture_a65r5")
 
 [node name="Ball" type="CharacterBody2D"]
 collision_layer = 4
@@ -19,3 +41,8 @@ shape = SubResource("CircleShape2D_mw5wu")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_nvr0n")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_x4j3a")

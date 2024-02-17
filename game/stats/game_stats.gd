@@ -6,6 +6,8 @@ class_name GameStats
 @export var ball_radius: float = 20.0
 @export var ball_speed: float = 2000.0
 @export var ball_color: Color = Color.WHITE
+@export var fire_ball_color: Color = Color.RED
+@export var fire_ball_speed: float = 3000.0
 
 @export var pickup_ball_animation_radius_start: float = 25.0
 @export var pickup_ball_animation_radius_end: float = 35.0
@@ -34,6 +36,8 @@ func save_stats():
     return {
         "ball_speed": ball_speed,
         "ball_color": var_to_str(ball_color),
+        "fire_ball_color": var_to_str(fire_ball_color),
+        "fire_ball_speed": fire_ball_speed,
         "coin_color": var_to_str(coin_color),
         "shot_line_color": var_to_str(shot_line_color),
         "block_hue_start": block_hue_start,
@@ -45,6 +49,8 @@ func save_stats():
 func load_stats(obj: Dictionary):
     ball_speed = obj.ball_speed
     ball_color = str_to_var(obj.ball_color)
+    fire_ball_color = str_to_var(obj.fire_ball_color)
+    fire_ball_speed = obj.fire_ball_speed
     coin_color = str_to_var(obj.coin_color)
     shot_line_color = str_to_var(obj.shot_line_color)
     block_hue_start = obj.block_hue_start

@@ -2,6 +2,8 @@ extends VBoxContainer
 class_name HUD
 
 signal balls_down_button_pressed()
+signal shot_lines_button_pressed()
+signal fire_ball_button_pressed()
 
 @onready var player_stats = Utils.get_player_stats()
 @onready var coin_label = $TopPanel/MarginContainer/HBoxContainer/CoinLabel
@@ -25,3 +27,11 @@ func _on_player_stats_balls_changed(balls: int):
 
 func _on_balls_down_held_button_activator_pressed():
     balls_down_button_pressed.emit()
+
+
+func _on_shot_lines_button_pressed():
+    shot_lines_button_pressed.emit()
+
+
+func _on_fire_ball_button_pressed():
+    fire_ball_button_pressed.emit()

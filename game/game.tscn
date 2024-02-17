@@ -66,4 +66,6 @@ shape = SubResource("RectangleShape2D_6ldlo")
 script = ExtResource("4_nxcnk")
 
 [connection signal="balls_down_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_balls_down_button_pressed"]
+[connection signal="fire_ball_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_fire_ball_button_pressed"]
+[connection signal="shot_lines_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_shot_lines_button_pressed"]
 [connection signal="fire" from="LaunchPointComponent" to="." method="_on_launch_point_component_fire"]
