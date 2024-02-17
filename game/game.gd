@@ -4,6 +4,7 @@ class_name Game
 const BlockScene: PackedScene = preload("res://game/objects/block.tscn")
 const BallScene: PackedScene = preload("res://game/objects/ball.tscn")
 const CoinScene: PackedScene = preload("res://game/objects/coin.tscn")
+const BombBlockScene: PackedScene = preload("res://game/objects/bomb_block.tscn")
 
 enum GameState {
     PREPARE_SHOT,
@@ -101,7 +102,11 @@ func get_block_value():
 
 
 func create_block(x: float, y: float):
-    var block = BlockScene.instantiate()
+    var block = null
+    if randf() <= 0.1:
+        block = BombBlockScene.instantiate()
+    else:
+        block = BlockScene.instantiate()
     var block_value = get_block_value()
     block.setup(block_width, block_value)
     blocks.add_child(block)
@@ -224,3 +229,17 @@ func _on_hud_shot_lines_button_pressed():
 func _on_hud_fire_ball_button_pressed():
     fire_ball = true
     launch_point.fire_ball = true
+
+
+func _on_hud_kill_bottom_row_button_pressed():
+    var lowest_row_y_vals = 0
+    for child in blocks.get_children():
+        if child.global_position.y > lowest_row_y_vals:
+            lowest_row_y_vals = child.global_position.y
+    
+    for child in blocks.get_children():
+        if child.global_position.y == lowest_row_y_vals:
+            if child.has_method("destroy"):
+                child.destroy()
+            if child.has_method("collect"):
+                child.collect()

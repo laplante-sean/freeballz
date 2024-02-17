@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://264vxsefiwnh"]
+
+[ext_resource type="PackedScene" uid="uid://bmxj7jvcja368" path="res://game/objects/block.tscn" id="1_symy5"]
+[ext_resource type="Script" path="res://game/objects/bomb_block.gd" id="2_mo7cb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5nok"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xohd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nxnsb"]
+
+[node name="BombBlock" instance=ExtResource("1_symy5")]
+z_index = 2
+script = ExtResource("2_mo7cb")
+
+[node name="HorizontalBombArea" type="Area2D" parent="." index="3"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HorizontalBombArea" index="0"]
+shape = SubResource("RectangleShape2D_j5nok")
+
+[node name="VerticleBombArea" type="Area2D" parent="." index="4"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VerticleBombArea" index="0"]
+shape = SubResource("RectangleShape2D_3xohd")
+
+[node name="ExplodeArea" type="Area2D" parent="." index="5"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplodeArea" index="0"]
+shape = SubResource("CircleShape2D_nxnsb")

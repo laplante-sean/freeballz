@@ -4,6 +4,7 @@ class_name HUD
 signal balls_down_button_pressed()
 signal shot_lines_button_pressed()
 signal fire_ball_button_pressed()
+signal kill_bottom_row_button_pressed()
 
 @onready var player_stats = Utils.get_player_stats()
 @onready var coin_label = $TopPanel/MarginContainer/HBoxContainer/CoinLabel
@@ -35,3 +36,7 @@ func _on_shot_lines_button_pressed():
 
 func _on_fire_ball_button_pressed():
     fire_ball_button_pressed.emit()
+
+
+func _on_kill_bottom_row_pressed():
+    kill_bottom_row_button_pressed.emit()

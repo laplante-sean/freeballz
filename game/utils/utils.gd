@@ -68,12 +68,19 @@ func save_game(block_container: Node2D) -> bool:
         var child_obj = {}
         if child is Ball:
             child_obj.path = "res://game/objects/ball.tscn"
-        if child is Block:
+        elif child is BombBlock:
+            child_obj.path = "res://game/objects/bomb_block.tscn"
+            child_obj.max_health = child.max_health
+            child_obj.health = child.health
+        elif child is Block:
             child_obj.path = "res://game/objects/block.tscn"
             child_obj.max_health = child.max_health
             child_obj.health = child.health
-        if child is Coin:
+        elif child is Coin:
             child_obj.path = "res://game/objects/coin.tscn"
+        else:
+            print("ERROR: Unknown child type. Can't save")
+            continue
 
         child_obj.position = var_to_str(child.position)
         save_data.blocks.children.append(child_obj)

@@ -28,6 +28,9 @@ class_name GameStats
 @export var block_hue_start: float = 130.0
 @export var block_saturation: float = 50.0
 @export var block_brightness: float = 45.0
+@export var bomb_block_color: Color = Color.ORANGE_RED
+@export var bomb_block_laser_color: Color = Color.ORANGE_RED
+@export var bomb_block_laser_max_width: float = 10.0
 
 @export var launch_point_global_position: Vector2 = Vector2(540, 1720)
 
@@ -39,10 +42,13 @@ func save_stats():
         "fire_ball_color": var_to_str(fire_ball_color),
         "fire_ball_speed": fire_ball_speed,
         "coin_color": var_to_str(coin_color),
+        "bomb_block_color": var_to_str(bomb_block_color),
         "shot_line_color": var_to_str(shot_line_color),
         "block_hue_start": block_hue_start,
         "block_saturation": block_saturation,
-        "block_brightness": block_brightness
+        "block_brightness": block_brightness,
+        "bomb_block_laser_color": var_to_str(bomb_block_laser_color),
+        "bomb_block_laser_max_width": bomb_block_laser_max_width
     }
 
 
@@ -56,3 +62,6 @@ func load_stats(obj: Dictionary):
     block_hue_start = obj.block_hue_start
     block_saturation = obj.block_saturation
     block_brightness = obj.block_brightness
+    bomb_block_color = str_to_var(obj.bomb_block_color)
+    bomb_block_laser_color = str_to_var(obj.bomb_block_laser_color)
+    bomb_block_laser_max_width = obj.bomb_block_laser_max_width

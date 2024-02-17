@@ -84,8 +84,12 @@ func set_health(value):
     if label != null:
         label.text = str(health)
     if health == 0:
-        explode()
-        queue_free()
+        _cleanup()
+
+
+func _cleanup():
+    explode()
+    queue_free()
 
 
 func explode():

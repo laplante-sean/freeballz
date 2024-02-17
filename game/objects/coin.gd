@@ -1,6 +1,8 @@
 extends Area2D
 class_name Coin
 
+const CoinSparkleParticlesComponentScene = preload("res://game/components/coin_sparkle_particles_component.tscn")
+
 @onready var game_stats = Utils.get_game_stats()
 @onready var player_stats = Utils.get_player_stats()
 @onready var collision_shape_2d = $CollisionShape2D
@@ -19,6 +21,11 @@ func _draw():
 
 
 func collect():
+    var inst = CoinSparkleParticlesComponentScene.instantiate()
+    inst.color = game_stats.coin_color
+    get_tree().current_scene.add_child(inst)
+    inst.global_position = global_position
+
     player_stats.coins += 1
     queue_free()
 
