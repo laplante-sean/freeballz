@@ -31,6 +31,7 @@ var top_offset: float = 0.0
 @onready var floor = $Boundaries/Floor
 @onready var left_wall_collision_shape_2d = $Boundaries/LeftWall/CollisionShape2D
 @onready var right_wall_collision_shape_2d = $Boundaries/RightWall/CollisionShape2D
+@onready var camera_shake_component = $CameraShakeComponent
 
 
 func _ready():
@@ -105,6 +106,7 @@ func create_block(x: float, y: float):
     var block = null
     if randf() <= 0.1:
         block = BombBlockScene.instantiate()
+        block.exploded.connect(_on_bomb_block_exploded)
     else:
         block = BlockScene.instantiate()
     var block_value = get_block_value()
@@ -191,6 +193,9 @@ func _on_launch_point_component_fire(dir: Vector2):
     show_shot_ball = false
     shot_cancelled = false
 
+    if fire_ball:
+        camera_shake_component.add_screenshake(0.25, 0.1)
+
     for _idx in range(player_stats.balls):
         var ball = BallScene.instantiate()
         ball.tree_exiting.connect(_on_ball_tree_exiting)
@@ -243,3 +248,7 @@ func _on_hud_kill_bottom_row_button_pressed():
                 child.destroy()
             if child.has_method("collect"):
                 child.collect()
+
+
+func _on_bomb_block_exploded():
+    camera_shake_component.add_screenshake(0.15, 0.1)

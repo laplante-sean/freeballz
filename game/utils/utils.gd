@@ -116,6 +116,10 @@ func load_game(block_container: Node2D) -> bool:
         if inst is Ball:
             inst.is_colletible = true
 
+        if inst is BombBlock:
+            # Setup the signal
+            inst.exploded.connect(get_tree().current_scene._on_bomb_block_exploded)
+
         block_container.add_child(inst)
         inst.position = str_to_var(child.position)
 

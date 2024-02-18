@@ -1,6 +1,8 @@
 extends Block
 class_name BombBlock
 
+signal exploded()
+
 @onready var h_collision_shape_2d = $VerticleBombArea/CollisionShape2D
 @onready var v_collision_shape_2d = $HorizontalBombArea/CollisionShape2D
 @onready var horizontal_bomb_area = $HorizontalBombArea
@@ -73,6 +75,7 @@ func _cleanup():
 
 
 func explode():
+    exploded.emit()
     exploding = true
     var effect: BlockBreakParticlesComponent = BlockBreakParticlesComponentScene.instantiate()
     effect.block_color = game_stats.bomb_block_color

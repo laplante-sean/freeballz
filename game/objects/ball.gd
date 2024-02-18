@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Ball
 
+const PickupBallSparkleParticlesComponentScene = preload("res://game/components/pickup_ball_sparkle_particles_component.tscn")
+
 enum MovementState {
     MOVING,
     RETURNING
@@ -66,6 +68,10 @@ func collect():
     set_collision_layer_value(4, false)
     drop()
     player_stats.balls += 1
+    
+    var inst = PickupBallSparkleParticlesComponentScene.instantiate()
+    get_tree().current_scene.add_child(inst)
+    inst.global_position = global_position
 
 
 func drop():
