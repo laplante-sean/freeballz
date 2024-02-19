@@ -9,6 +9,8 @@ signal kill_bottom_row_button_pressed()
 @onready var player_stats = Utils.get_player_stats()
 @onready var coin_label = $TopPanel/MarginContainer/HBoxContainer/CoinLabel
 @onready var num_balls_label = $TopPanel/MarginContainer/HBoxContainer/NumBallsLabel
+@onready var bottom_panel = $BottomPanel
+@onready var top_panel = $TopPanel
 
 
 func _ready():
@@ -40,3 +42,11 @@ func _on_fire_ball_button_pressed():
 
 func _on_kill_bottom_row_pressed():
     kill_bottom_row_button_pressed.emit()
+
+
+func get_bottom_panel_height() -> float:
+    return bottom_panel.size.y
+
+
+func get_top_panel_height() -> float:
+    return top_panel.size.y

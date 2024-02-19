@@ -28,19 +28,20 @@ var top_offset: float = 0.0
 @onready var ceiling_collision_shape_2d = $Boundaries/Ceiling/CollisionShape2D
 @onready var left_wall = $Boundaries/LeftWall
 @onready var right_wall = $Boundaries/RightWall
-@onready var floor = $Boundaries/Floor
+@onready var game_floor = $Boundaries/Floor
 @onready var left_wall_collision_shape_2d = $Boundaries/LeftWall/CollisionShape2D
 @onready var right_wall_collision_shape_2d = $Boundaries/RightWall/CollisionShape2D
 @onready var camera_shake_component = $CameraShakeComponent
+@onready var hud = $HUDLayer/HUD
+@onready var game_ceiling = $Boundaries/Ceiling
 
 
 func _ready():
     screen_size = get_viewport().get_visible_rect().size
-    _adjust_boundaries()
+    _adjust_boundaries(screen_size)
 
     block_width = Utils.get_block_width()
     launch_point.global_position = game_stats.launch_point_global_position
-    top_offset = ceiling_collision_shape_2d.shape.size.y
 
     print("Screen Size        : ", screen_size)
     print("Block Width        : ", block_width)
@@ -54,22 +55,28 @@ func _ready():
         create_row()
 
 
-func _adjust_boundaries():
+func _adjust_boundaries(screen_size: Vector2):
     # Designed for 1080x1920 but the scale is set to expand in the height.
     # So on taller/shorter devices we need to adjust the position of the floor
     # and the size of the wall colliders
-    screen_size = get_viewport().get_visible_rect().size
-    var offset = Vector2(0, screen_size.y - 1920)  # Could be negative for smaller displays
+    var offset = screen_size.y - 1920
+    top_offset = ceiling_collision_shape_2d.shape.size.y - offset / 2.0
 
-    # Adjust floor and launch point
-    floor.global_position += offset
-    game_stats.launch_point_global_position += offset - Vector2(0, game_stats.ball_radius)
+    # Adjust top/bottom
+    game_ceiling.global_position.y -= offset / 2.0
+    game_floor.global_position.y += offset / 2.0
+
+    # Adjust launch point
+    game_stats.launch_point_global_position.y += (offset / 2.0) - game_stats.ball_radius
 
     # Adjust left and right boundaries
     left_wall.global_position.y = screen_size.y / 2
     right_wall.global_position.y = screen_size.y / 2
-    left_wall_collision_shape_2d.shape.size.y = screen_size.y
+    left_wall_collision_shape_2d.shape.size.y += screen_size.y
     right_wall_collision_shape_2d.shape.size.y += screen_size.y
+
+    print("Top: ", game_ceiling.global_position.y)
+    print("Bottom: ", game_floor.global_position.y)
 
 
 func _process(_delta):
