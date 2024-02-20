@@ -2,13 +2,12 @@
 
 [ext_resource type="Script" path="res://game/components/coin_sparkle_particles_component.gd" id="1_76c1f"]
 
-[sub_resource type="Curve" id="Curve_bt2ap"]
-max_value = 3.0
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -6.30865, 0.0, 0, 0]
-point_count = 2
+[sub_resource type="Curve" id="Curve_oinej"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.608333, 0.75432), -0.887865, -0.887865, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_h1tnd"]
-curve = SubResource("Curve_bt2ap")
+curve = SubResource("Curve_oinej")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j678a"]
 particle_flag_disable_z = true
@@ -19,8 +18,8 @@ spread = 180.0
 initial_velocity_min = 250.0
 initial_velocity_max = 300.0
 gravity = Vector3(0, 980, 0)
-scale_min = 25.0
-scale_max = 32.0
+scale_min = 32.0
+scale_max = 36.0
 scale_curve = SubResource("CurveTexture_h1tnd")
 collision_mode = 1
 collision_friction = 0.0
@@ -29,7 +28,6 @@ collision_use_scale = true
 
 [node name="CoinSparkleParticlesComponent" type="GPUParticles2D"]
 emitting = false
-amount = 12
 process_material = SubResource("ParticleProcessMaterial_j678a")
 lifetime = 1.5
 one_shot = true

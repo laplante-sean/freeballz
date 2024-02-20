@@ -13,5 +13,6 @@ func _ready():
     process_material.emission_box_extents = Vector3(block_width / 2.0, block_width / 2.0, 1)
     modulate = block_color
 
+
 func _on_finished():
     queue_free()
