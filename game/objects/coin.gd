@@ -1,4 +1,4 @@
-extends Area2D
+extends StaticBody2D
 class_name Coin
 
 const CoinSparkleParticlesComponentScene = preload("res://game/components/coin_sparkle_particles_component.tscn")
@@ -29,7 +29,3 @@ func collect():
     player_stats.coins += 1
     queue_free()
 
-
-func _on_body_entered(body):
-    if body is Ball:
-        collect()

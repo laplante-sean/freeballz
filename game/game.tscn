@@ -16,10 +16,10 @@ size = Vector2(1080, 200)
 polygon = PackedVector2Array(-562, -101, 568, -98, 569, 122, -565, 118)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28j6n"]
-size = Vector2(100, 1920)
+size = Vector2(50, 1920)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6ldlo"]
-size = Vector2(100, 1920)
+size = Vector2(50, 1920)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1")
@@ -38,7 +38,7 @@ script = ExtResource("3_iypvm")
 
 [node name="Boundaries" type="Node2D" parent="."]
 
-[node name="Ceiling" type="StaticBody2D" parent="Boundaries"]
+[node name="Ceiling" type="StaticBody2D" parent="Boundaries" groups=["GameCeiling"]]
 position = Vector2(540, 50)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Ceiling"]
@@ -77,5 +77,6 @@ camera_2d = NodePath("../Camera2D")
 [connection signal="balls_down_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_balls_down_button_pressed"]
 [connection signal="fire_ball_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_fire_ball_button_pressed"]
 [connection signal="kill_bottom_row_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_kill_bottom_row_button_pressed"]
+[connection signal="passthrough_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_passthrough_button_pressed"]
 [connection signal="shot_lines_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_shot_lines_button_pressed"]
 [connection signal="fire" from="LaunchPointComponent" to="." method="_on_launch_point_component_fire"]

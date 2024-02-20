@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://dkw4tlmudbssg"]
+[gd_scene load_steps=7 format=3 uid="uid://dkw4tlmudbssg"]
 
-[ext_resource type="Texture2D" uid="uid://doji4e83dr6id" path="res://icon.png" id="1_2hgoy"]
 [ext_resource type="Script" path="res://game/hud/hud.gd" id="1_eqjgb"]
 [ext_resource type="Script" path="res://game/components/coin_ui_component.gd" id="2_56jhy"]
 [ext_resource type="Script" path="res://game/components/held_button_activator_component.gd" id="3_4quje"]
@@ -83,31 +82,93 @@ layout_mode = 2
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 size_flags_horizontal = 3
-texture_normal = ExtResource("1_2hgoy")
 stretch_mode = 5
 
 [node name="BallsDownHeldButtonActivator" type="Node2D" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/BallsDownButton"]
 script = ExtResource("3_4quje")
 
+[node name="Label" type="Label" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/BallsDownButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 72
+text = "D"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ShotLinesButton" type="TextureButton" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture_normal = ExtResource("1_2hgoy")
 stretch_mode = 5
+
+[node name="Label" type="Label" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/ShotLinesButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "L"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="FireBallButton" type="TextureButton" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture_normal = ExtResource("1_2hgoy")
 stretch_mode = 5
 
-[node name="KillBottomRow" type="TextureButton" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/FireBallButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "F"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KillBottomRowButton" type="TextureButton" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture_normal = ExtResource("1_2hgoy")
 stretch_mode = 5
+
+[node name="Label" type="Label" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/KillBottomRowButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "K"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PassthroughButton" type="TextureButton" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/PassthroughButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "P"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/BallsDownButton/BallsDownHeldButtonActivator" to="." method="_on_balls_down_held_button_activator_pressed"]
 [connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/ShotLinesButton" to="." method="_on_shot_lines_button_pressed"]
 [connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/FireBallButton" to="." method="_on_fire_ball_button_pressed"]
-[connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/KillBottomRow" to="." method="_on_kill_bottom_row_pressed"]
+[connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/KillBottomRowButton" to="." method="_on_kill_bottom_row_button_pressed"]
+[connection signal="pressed" from="BottomPanel/MarginContainer/CenterContainer/HBoxContainer/PassthroughButton" to="." method="_on_passthrough_button_pressed"]

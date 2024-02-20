@@ -23,12 +23,12 @@ scale_max = 32.0
 scale_curve = SubResource("CurveTexture_3uk7e")
 collision_mode = 1
 collision_friction = 0.0
-collision_bounce = 0.0
+collision_bounce = 0.25
+collision_use_scale = true
 
 [node name="PickupBallSparkleParticlesComponent" type="GPUParticles2D"]
-amount = 16
+amount = 12
 process_material = SubResource("ParticleProcessMaterial_fslsc")
 lifetime = 1.5
 explosiveness = 1.0
-collision_base_size = 3.0
 script = ExtResource("1_dk4h0")

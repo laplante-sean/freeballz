@@ -47,22 +47,29 @@ func hit():
         laser_tween.tween_property(self, "laser_width", game_stats.bomb_block_laser_max_width, 0.25)
         laser_tween.chain().tween_property(self, "laser_width", 0, 0.15)
         laser_tween.finished.connect(_on_laser_tween_finished)
-    
+
     for block in horizontal_bomb_area.get_overlapping_bodies():
-        if block == self:
-            continue
-        if block is BombBlock:
-            block.health -= 1  # Don't call hit() b/c recursion
-        else:
-            block.hit()
+        _handle_hit(block)
     for block in verticle_bomb_area.get_overlapping_bodies():
-        if block == self:
-            continue
-        if block is BombBlock:
-            block.health -= 1  # Don't call hit() b/c recursion
-        else:
-            block.hit()
+        _handle_hit(block)
     super.hit()
+
+
+func _handle_hit(obj):
+    # Don't hit ourselves
+    if obj == self:
+        return
+
+    # Collect pickups
+    if obj.has_method("collect"):
+        obj.collect()
+        return
+
+    # Handle other blocks
+    if obj is BombBlock:
+        obj.health -= 1  # Don't call hit() b/c recursion
+    else:
+        obj.hit()
 
 
 func _cleanup():
@@ -92,6 +99,13 @@ func explode():
     particles.initial_velocity_min = 1900
 
     for block in explode_area.get_overlapping_bodies():
+        if block == self:
+            continue
+
+        if block.has_method("collect"):
+            block.collect()
+            continue
+
         if block is BombBlock:
             if not block.exploding:
                 block.destroy()

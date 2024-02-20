@@ -12,6 +12,7 @@ var shape_casts: Array[ShapeCast2D] = []
 var render_count: int = 1 : set = _set_render_count
 var enabled: bool = true
 var fire_ball: bool = false
+var passthrough: bool = false
 
 @onready var game_stats: GameStats = Utils.get_game_stats()
 
@@ -42,7 +43,7 @@ func _draw():
 func update_collisions_masks():
     for idx in range(max_shot_lines):
         var shape_cast = shape_casts[idx]
-        if fire_ball:
+        if fire_ball or passthrough:
             shape_cast.set_collision_mask_value(2, false)  # blocks
         else:
             shape_cast.set_collision_mask_value(2, true)  # blocks
@@ -53,6 +54,7 @@ func draw_shot_line():
     shot_direction = global_position.direction_to(global_mouse_pos)
     var target: Vector2 = Vector2.ZERO
     var normal: Vector2 = Vector2.ZERO
+    var hit_ceiling: bool = false
     
     var color = game_stats.shot_line_color
     var ball_color = game_stats.ball_color
@@ -75,6 +77,9 @@ func draw_shot_line():
         var start = Vector2(target)
         shape_cast_2d.position = start
 
+        if passthrough and hit_ceiling:
+            shape_cast_2d.set_collision_mask_value(2, true)
+
         if idx > 0:
             direction = direction.bounce(normal)
 
@@ -88,8 +93,16 @@ func draw_shot_line():
         adjust = Vector2(target.x, target.y) + adjust
         target = target.move_toward(adjust, game_stats.ball_radius)
 
-        draw_circle(target, game_stats.ball_radius, ball_color)
+        if passthrough and not hit_ceiling:
+            draw_arc(target, game_stats.ball_radius, 0, deg_to_rad(360), 100, game_stats.ball_color, 5, true)
+        else:
+            draw_circle(target, game_stats.ball_radius, ball_color)
         draw_line(start, target, color, game_stats.shot_line_width, game_stats.shot_line_antialiased)
+
+        # Finally check if we hit the ceiling and set the bool for the next/subsequent shot lines
+        var collider = shape_cast_2d.get_collider(0)
+        if collider and collider.is_in_group("GameCeiling"):
+            hit_ceiling = true
 
 
 func _input(event):

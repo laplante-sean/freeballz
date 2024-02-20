@@ -19,6 +19,7 @@ var show_shot_ball: bool = true
 var shot_cancelled: bool = false
 var fire_ball: bool = false
 var first_row: bool = true
+var passthrough: bool = false
 var top_offset: float = 0.0
 
 @onready var blocks = $Blocks
@@ -94,15 +95,16 @@ func _draw():
     var color = game_stats.ball_color
     if fire_ball:
         color = game_stats.fire_ball_color
-    
-    if show_shot_ball:
+
+    if show_shot_ball and not passthrough:
         draw_circle(launch_point.position, game_stats.ball_radius, color)
+    elif show_shot_ball and passthrough:
+        draw_arc(launch_point.position, game_stats.ball_radius, 0, deg_to_rad(360), 100, game_stats.ball_color, 5, true)
 
 
 func get_block_value():
-    var chance = randi_range(0, 100)
-    if chance < 33:
-        # 1/3rd chance of the block value being double the current level
+    if randf() <= 0.25:
+        # 25% chance of the block value being double the current level
         return player_stats.level * 2
 
     # otherwise the new blocks value is just the level
@@ -112,6 +114,7 @@ func get_block_value():
 func create_block(x: float, y: float):
     var block = null
     if randf() <= 0.1:
+        # 10% chance of a bomb block
         block = BombBlockScene.instantiate()
         block.exploded.connect(_on_bomb_block_exploded)
     else:
@@ -195,6 +198,15 @@ func _on_ball_tree_exiting():
     balls_out = max(balls_out - 1, 0)
 
 
+func _on_bomb_block_exploded():
+    camera_shake_component.add_screenshake(0.15, 0.1)
+
+
+func _on_block_hit_game_floor():
+    Utils.clear_save_game()
+    get_tree().change_scene_to_file("res://game/menu/main_menu.tscn")
+
+
 func _on_launch_point_component_fire(dir: Vector2):
     game_state = GameState.EXECUTE_SHOT
     show_shot_ball = false
@@ -205,9 +217,14 @@ func _on_launch_point_component_fire(dir: Vector2):
 
     for _idx in range(player_stats.balls):
         var ball = BallScene.instantiate()
+        
+        # Configure first
         ball.tree_exiting.connect(_on_ball_tree_exiting)
-        launch_point.add_child(ball)
         ball.fire_ball = fire_ball
+        ball.passthrough = passthrough
+
+        # Then add it to the scene and fire
+        launch_point.add_child(ball)
         ball.fire(dir)
         balls_out += 1
 
@@ -223,15 +240,12 @@ func _on_launch_point_component_fire(dir: Vector2):
     shot_cancelled = false
     fire_ball = false
     launch_point.fire_ball = false
+    passthrough = false
+    launch_point.passthrough = false
 
 
 func _on_hud_balls_down_button_pressed():
     balls_down()
-
-
-func _on_block_hit_game_floor():
-    Utils.clear_save_game()
-    get_tree().change_scene_to_file("res://game/menu/main_menu.tscn")
 
 
 func _on_hud_shot_lines_button_pressed():
@@ -241,6 +255,8 @@ func _on_hud_shot_lines_button_pressed():
 func _on_hud_fire_ball_button_pressed():
     fire_ball = true
     launch_point.fire_ball = true
+    passthrough = false
+    launch_point.passthrough = false
 
 
 func _on_hud_kill_bottom_row_button_pressed():
@@ -257,5 +273,8 @@ func _on_hud_kill_bottom_row_button_pressed():
                 child.collect()
 
 
-func _on_bomb_block_exploded():
-    camera_shake_component.add_screenshake(0.15, 0.1)
+func _on_hud_passthrough_button_pressed():
+    passthrough = true
+    launch_point.passthrough = true
+    fire_ball = false
+    launch_point.fire_ball = false

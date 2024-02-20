@@ -16,6 +16,7 @@ var animated_radius = 0
 var collectible_tween: Tween
 var return_proximity: float = 15.0
 var fire_ball: bool = false
+var passthrough: bool = false
 
 @onready var game_stats: GameStats = Utils.get_game_stats()
 @onready var player_stats: PlayerStats = Utils.get_player_stats()
@@ -56,10 +57,13 @@ func setup_collectible_ball():
 func fire(dir: Vector2):
     move_state = MovementState.MOVING
     direction = dir
-    
+
     if fire_ball:
         gpu_particles_2d.emitting = true
         gpu_particles_2d.modulate = game_stats.fire_ball_color
+
+    if passthrough:
+        set_collision_mask_value(2, false)  # don't collider with blocks
 
 
 func collect():
@@ -120,6 +124,9 @@ func move_ball(delta):
         if collider.is_in_group("GameFloor"):
             move_state = MovementState.RETURNING
             return
+        if passthrough and collider.is_in_group("GameCeiling"):
+            set_collision_mask_value(2, true)  # Re-enable block collisions
+            passthrough = false
         if collider.has_method("collect"):
             collider.collect()
             return
@@ -137,7 +144,11 @@ func _draw():
     var color = game_stats.ball_color
     if fire_ball:
         color = game_stats.fire_ball_color
-    
-    draw_circle(Vector2.ZERO, game_stats.ball_radius, color)
+
+    if passthrough:
+        draw_arc(Vector2.ZERO, game_stats.ball_radius, 0, deg_to_rad(360), 100, game_stats.ball_color, 5, true)
+    else:
+        draw_circle(Vector2.ZERO, game_stats.ball_radius, color)
+
     if is_colletible:
         draw_arc(Vector2.ZERO, animated_radius, 0, deg_to_rad(360), 100, game_stats.ball_color, 3.5, true)

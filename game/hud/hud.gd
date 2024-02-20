@@ -5,6 +5,7 @@ signal balls_down_button_pressed()
 signal shot_lines_button_pressed()
 signal fire_ball_button_pressed()
 signal kill_bottom_row_button_pressed()
+signal passthrough_button_pressed()
 
 @onready var player_stats = Utils.get_player_stats()
 @onready var coin_label = $TopPanel/MarginContainer/HBoxContainer/CoinLabel
@@ -18,6 +19,14 @@ func _ready():
     num_balls_label.text = "1"
     player_stats.coins_changed.connect(_on_player_stats_coins_changed)
     player_stats.balls_changed.connect(_on_player_stats_balls_changed)
+
+
+func get_bottom_panel_height() -> float:
+    return bottom_panel.size.y
+
+
+func get_top_panel_height() -> float:
+    return top_panel.size.y
 
 
 func _on_player_stats_coins_changed(coins: int):
@@ -40,13 +49,9 @@ func _on_fire_ball_button_pressed():
     fire_ball_button_pressed.emit()
 
 
-func _on_kill_bottom_row_pressed():
+func _on_kill_bottom_row_button_pressed():
     kill_bottom_row_button_pressed.emit()
 
 
-func get_bottom_panel_height() -> float:
-    return bottom_panel.size.y
-
-
-func get_top_panel_height() -> float:
-    return top_panel.size.y
+func _on_passthrough_button_pressed():
+    passthrough_button_pressed.emit()

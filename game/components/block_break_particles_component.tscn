@@ -23,12 +23,13 @@ scale_max = 32.0
 scale_curve = SubResource("CurveTexture_vptha")
 collision_mode = 1
 collision_friction = 0.0
-collision_bounce = 0.0
+collision_bounce = 0.25
+collision_use_scale = true
 
 [node name="BlockBreakParticlesComponent" type="GPUParticles2D"]
 z_index = -1
 emitting = false
-amount = 16
+amount = 12
 process_material = SubResource("ParticleProcessMaterial_fmpns")
 lifetime = 3.0
 one_shot = true
