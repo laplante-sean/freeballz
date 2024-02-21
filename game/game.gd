@@ -5,6 +5,7 @@ const BlockScene: PackedScene = preload("res://game/objects/block.tscn")
 const BallScene: PackedScene = preload("res://game/objects/ball.tscn")
 const CoinScene: PackedScene = preload("res://game/objects/coin.tscn")
 const BombBlockScene: PackedScene = preload("res://game/objects/bomb_block.tscn")
+const ScatterOrbScene: PackedScene = preload("res://game/objects/scatter_orb.tscn")
 
 enum GameState {
     PREPARE_SHOT,
@@ -126,6 +127,19 @@ func create_block(x: float, y: float):
     block.hit_game_floor.connect(_on_block_hit_game_floor)
 
 
+func check_for_obj(x: float, y: float):
+    var physics = get_world_2d().get_direct_space_state()
+    var point_query = PhysicsPointQueryParameters2D.new()
+    point_query.collide_with_areas = true
+    point_query.collide_with_bodies = true
+    point_query.position = Vector2(x, y)
+    var result = physics.intersect_point(point_query)
+    if len(result) > 0:
+        print("Something is here!")
+        return true
+    return false
+
+
 func create_coin(x: float, y: float):
     var coin = CoinScene.instantiate()
     blocks.add_child(coin)
@@ -137,6 +151,12 @@ func create_pickup_ball(x: float, y: float):
     ball.is_colletible = true
     blocks.add_child(ball)
     ball.global_position = Vector2(x + (block_width / 2.0), y + (block_width / 2.0))
+
+
+func create_scatter_orb(x: float, y: float):
+    var orb = ScatterOrbScene.instantiate()
+    blocks.add_child(orb)
+    orb.global_position = Vector2(x + (block_width / 2.0), y + (block_width / 2.0))
 
 
 func balls_down():
@@ -152,6 +172,11 @@ func create_row():
     var y: float = top_offset
     var coin_column: int = game_stats.block_columns
     var pickup_ball_column: int = game_stats.block_columns
+
+    # Check and remove any scatter orbs from last turn
+    for child in blocks.get_children():
+        if child is ScatterOrb:
+            child.disolve()
 
     # Level starts at 0 so we increment first
     player_stats.level += 1
@@ -171,6 +196,15 @@ func create_row():
         else:
             create_block(x, y)
         x += block_width + game_stats.block_spacing
+    
+    var chance = randf()
+    print("Chance: ", chance)
+    if chance <= 0.40:
+        print("Trying to spawn orb")
+        x = randi_range(0, game_stats.block_columns - 1) * block_width
+        y += randi_range(4, 6) * block_width
+        if not check_for_obj(x + (block_width / 2.0), y + (block_width / 2.0)):
+            create_scatter_orb(x, y)
 
     _move_down()
     first_row = false

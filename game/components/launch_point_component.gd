@@ -103,6 +103,8 @@ func draw_shot_line():
         var collider = shape_cast_2d.get_collider(0)
         if collider and collider.is_in_group("GameCeiling"):
             hit_ceiling = true
+        if collider and collider.is_in_group("GameFloor"):
+            break  # Balls don't bounce off the game floor
 
 
 func _input(event):

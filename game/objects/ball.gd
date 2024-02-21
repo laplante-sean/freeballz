@@ -17,6 +17,7 @@ var collectible_tween: Tween
 var return_proximity: float = 15.0
 var fire_ball: bool = false
 var passthrough: bool = false
+var ball_color: Color
 
 @onready var game_stats: GameStats = Utils.get_game_stats()
 @onready var player_stats: PlayerStats = Utils.get_player_stats()
@@ -25,6 +26,7 @@ var passthrough: bool = false
 
 
 func _ready():
+    ball_color = game_stats.ball_color
     velocity = Vector2.ZERO
     collision_shape_2d.shape.radius = game_stats.ball_radius
     return_proximity = game_stats.ball_radius
@@ -141,14 +143,14 @@ func move_ball(delta):
 
 
 func _draw():
-    var color = game_stats.ball_color
+    var color = ball_color
     if fire_ball:
         color = game_stats.fire_ball_color
 
     if passthrough:
-        draw_arc(Vector2.ZERO, game_stats.ball_radius, 0, deg_to_rad(360), 100, game_stats.ball_color, 5, true)
+        draw_arc(Vector2.ZERO, game_stats.ball_radius, 0, deg_to_rad(360), 100, color, 5, true)
     else:
         draw_circle(Vector2.ZERO, game_stats.ball_radius, color)
 
     if is_colletible:
-        draw_arc(Vector2.ZERO, animated_radius, 0, deg_to_rad(360), 100, game_stats.ball_color, 3.5, true)
+        draw_arc(Vector2.ZERO, animated_radius, 0, deg_to_rad(360), 100, color, 3.5, true)
