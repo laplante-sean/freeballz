@@ -31,12 +31,14 @@ class_name GameStats
 @export var bomb_block_color: Color = Color.ORANGE_RED
 @export var bomb_block_laser_color: Color = Color.ORANGE_RED
 @export var bomb_block_laser_max_width: float = 10.0
+@export var bomb_block_spawn_chance: float = 0.1
 
 @export var scatter_orb_color: Color = Color.LIGHT_PINK
 @export var scatter_orb_thickness: float = 4.0
 @export var scatter_orb_animation_radius_start: float = 45.0
 @export var scatter_orb_animation_radius_end: float = 50.0
 @export var scatter_orb_count: int = 5
+@export var scatter_orb_spawn_chance: float = 0.25
 
 @export var launch_point_global_position: Vector2 = Vector2(540, 1720)
 

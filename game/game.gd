@@ -114,7 +114,7 @@ func get_block_value():
 
 func create_block(x: float, y: float):
     var block = null
-    if randf() <= 0.1:
+    if randf() <= game_stats.bomb_block_spawn_chance:
         # 10% chance of a bomb block
         block = BombBlockScene.instantiate()
         block.exploded.connect(_on_bomb_block_exploded)
@@ -127,7 +127,7 @@ func create_block(x: float, y: float):
     block.hit_game_floor.connect(_on_block_hit_game_floor)
 
 
-func check_for_obj(x: float, y: float):
+func check_for_obj(x: float, y: float, delete: bool = false):
     var physics = get_world_2d().get_direct_space_state()
     var point_query = PhysicsPointQueryParameters2D.new()
     point_query.collide_with_areas = true
@@ -135,7 +135,6 @@ func check_for_obj(x: float, y: float):
     point_query.position = Vector2(x, y)
     var result = physics.intersect_point(point_query)
     if len(result) > 0:
-        print("Something is here!")
         return true
     return false
 
@@ -196,13 +195,11 @@ func create_row():
         else:
             create_block(x, y)
         x += block_width + game_stats.block_spacing
-    
+
     var chance = randf()
-    print("Chance: ", chance)
-    if chance <= 0.40:
-        print("Trying to spawn orb")
+    if chance <= game_stats.scatter_orb_spawn_chance:
         x = randi_range(0, game_stats.block_columns - 1) * block_width
-        y += randi_range(4, 6) * block_width
+        y += randi_range(1, 4) * block_width
         if not check_for_obj(x + (block_width / 2.0), y + (block_width / 2.0)):
             create_scatter_orb(x, y)
 
@@ -296,6 +293,8 @@ func _on_hud_fire_ball_button_pressed():
 func _on_hud_kill_bottom_row_button_pressed():
     var lowest_row_y_vals = 0
     for child in blocks.get_children():
+        if child is ScatterOrb:
+            continue
         if child.global_position.y > lowest_row_y_vals:
             lowest_row_y_vals = child.global_position.y
     

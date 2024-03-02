@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d312wq4awyabh"]
 
-[ext_resource type="Script" path="res://game/objects/scatter_orb.gd" id="1_sbl0y"]
+[ext_resource type="Script" path="res://game/objects/scatter_orb.gd" id="1_kpacx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5q0w6"]
 radius = 65.0
@@ -8,7 +8,7 @@ radius = 65.0
 [node name="ScatterOrb" type="Area2D"]
 collision_layer = 0
 collision_mask = 4
-script = ExtResource("1_sbl0y")
+script = ExtResource("1_kpacx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5q0w6")
