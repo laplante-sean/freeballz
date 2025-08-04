@@ -12,10 +12,10 @@ func get_block_width() -> int:
 
 
 func get_game_floor_y_pos() -> float:
-    var floor = get_tree().current_scene.find_child("Floor") as StaticBody2D
-    var collider = floor.find_child("CollisionShape2D") as CollisionShape2D
+    var game_floor = get_tree().current_scene.find_child("Floor") as StaticBody2D
+    var collider = game_floor.find_child("CollisionShape2D") as CollisionShape2D
     var offset = collider.shape.size.y / 2.0
-    return floor.global_position.y - offset
+    return game_floor.global_position.y - offset
 
 
 func get_game_stats() -> GameStats:

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d3pfu2f1d7tkv"]
 
-[ext_resource type="Script" path="res://game/components/block_break_particles_component.gd" id="1_1nnia"]
+[ext_resource type="Script" uid="uid://bvoxmlw7ufick" path="res://game/components/block_break_particles_component.gd" id="1_1nnia"]
 
 [sub_resource type="Curve" id="Curve_i8rpi"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.608333, 0.75432), -0.887865, -0.887865, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -29,11 +29,10 @@ collision_use_scale = true
 [node name="BlockBreakParticlesComponent" type="GPUParticles2D"]
 z_index = -1
 emitting = false
-process_material = SubResource("ParticleProcessMaterial_fmpns")
+amount = 9
 lifetime = 2.5
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_fmpns")
 script = ExtResource("1_1nnia")
-
-[connection signal="finished" from="." to="." method="_on_finished"]

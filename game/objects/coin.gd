@@ -28,4 +28,3 @@ func collect():
 
     player_stats.coins += 1
     queue_free()
-

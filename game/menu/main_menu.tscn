@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://c6wwrdvtn6qql"]
 
-[ext_resource type="Script" path="res://game/menu/main_menu.gd" id="1_15j84"]
-[ext_resource type="Script" path="res://game/components/touch_sparkles_component.gd" id="2_j5qll"]
-[ext_resource type="Script" path="res://game/components/go_back_handler_componenet.gd" id="3_bcjtv"]
+[ext_resource type="Script" uid="uid://cp5is2nkm0v1" path="res://game/menu/main_menu.gd" id="1_15j84"]
+[ext_resource type="Script" uid="uid://ck311bd6kq31g" path="res://game/components/touch_sparkles_component.gd" id="2_j5qll"]
+[ext_resource type="Script" uid="uid://dtqau4mhetlbu" path="res://game/components/go_back_handler_componenet.gd" id="3_bcjtv"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_t5wkg"]
 color = Color(1, 1, 1, 1)
@@ -17,8 +17,8 @@ spread = 90.0
 initial_velocity_min = 150.0
 initial_velocity_max = 200.0
 gravity = Vector3(0, 980, 0)
-scale_min = 10.0
-scale_max = 10.0
+scale_min = 15.0
+scale_max = 20.0
 
 [node name="MainMenu" type="CenterContainer"]
 anchors_preset = 15
@@ -68,9 +68,9 @@ text = "Options"
 position = Vector2(540, 200)
 emitting = false
 amount = 300
-process_material = SubResource("ParticleProcessMaterial_6d041")
 lifetime = 10.0
 trail_lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_6d041")
 script = ExtResource("2_j5qll")
 
 [node name="GoBackHandlerComponent" type="Node" parent="."]

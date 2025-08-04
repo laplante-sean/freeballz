@@ -6,6 +6,9 @@ const BallScene: PackedScene = preload("res://game/objects/ball.tscn")
 const CoinScene: PackedScene = preload("res://game/objects/coin.tscn")
 const BombBlockScene: PackedScene = preload("res://game/objects/bomb_block.tscn")
 const ScatterOrbScene: PackedScene = preload("res://game/objects/scatter_orb.tscn")
+const BlockBreakParticlesComponentScene = preload("res://game/components/block_break_particles_component.tscn")
+const CoinSparkleParticlesComponentScene = preload("res://game/components/coin_sparkle_particles_component.tscn")
+const PickupBallSparkleParticlesComponentScene = preload("res://game/components/pickup_ball_sparkle_particles_component.tscn")
 
 enum GameState {
     PREPARE_SHOT,
@@ -36,11 +39,11 @@ var top_offset: float = 0.0
 @onready var camera_shake_component = $CameraShakeComponent
 @onready var hud = $HUDLayer/HUD
 @onready var game_ceiling = $Boundaries/Ceiling
-
+@onready var preload_particles: Node2D = $PreloadParticles
 
 func _ready():
     screen_size = get_viewport().get_visible_rect().size
-    _adjust_boundaries(screen_size)
+    _adjust_boundaries()
 
     block_width = Utils.get_block_width()
     launch_point.global_position = game_stats.launch_point_global_position
@@ -56,8 +59,29 @@ func _ready():
     elif not Utils.load_game(blocks):
         create_row()
 
+    preload_particles.global_position.y = game_floor.global_position.y + 150.0
+    preload_particles.global_position.x = launch_point.global_position.x
+    call_deferred("_preload_particles")
 
-func _adjust_boundaries(screen_size: Vector2):
+
+func _preload_particles():
+    # This prevents stutter by preloading them at the start of the level on a thread
+    await get_tree().create_timer(0.5).timeout
+
+    var pickup_particles_inst = PickupBallSparkleParticlesComponentScene.instantiate() as PickupBallSparkleParticlesComponent
+    get_tree().current_scene.add_child(pickup_particles_inst)
+    pickup_particles_inst.global_position = preload_particles.global_position
+
+    var coin_particles_inst = CoinSparkleParticlesComponentScene.instantiate() as CoinSparkleParticlesComponent
+    get_tree().current_scene.add_child(coin_particles_inst)
+    coin_particles_inst.global_position = preload_particles.global_position
+
+    var block_break_particles_inst = BlockBreakParticlesComponentScene.instantiate() as BlockBreakParticlesComponent
+    get_tree().current_scene.add_child(block_break_particles_inst)
+    block_break_particles_inst.global_position = preload_particles.global_position
+
+
+func _adjust_boundaries():
     # Designed for 1080x1920 but the scale is set to expand in the height.
     # So on taller/shorter devices we need to adjust the position of the floor
     # and the size of the wall colliders
@@ -127,7 +151,7 @@ func create_block(x: float, y: float):
     block.hit_game_floor.connect(_on_block_hit_game_floor)
 
 
-func check_for_obj(x: float, y: float, delete: bool = false):
+func check_for_obj(x: float, y: float):
     var physics = get_world_2d().get_direct_space_state()
     var point_query = PhysicsPointQueryParameters2D.new()
     point_query.collide_with_areas = true
@@ -248,7 +272,7 @@ func _on_launch_point_component_fire(dir: Vector2):
 
     for _idx in range(player_stats.balls):
         var ball = BallScene.instantiate()
-        
+
         # Configure first
         ball.tree_exiting.connect(_on_ball_tree_exiting)
         ball.fire_ball = fire_ball
@@ -297,7 +321,7 @@ func _on_hud_kill_bottom_row_button_pressed():
             continue
         if child.global_position.y > lowest_row_y_vals:
             lowest_row_y_vals = child.global_position.y
-    
+
     for child in blocks.get_children():
         if child.global_position.y == lowest_row_y_vals:
             if child.has_method("destroy"):

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bmxj7jvcja368"]
 
-[ext_resource type="Script" path="res://game/objects/block.gd" id="1_ncyvw"]
+[ext_resource type="Script" uid="uid://c1ugxcvlwe2qt" path="res://game/objects/block.gd" id="1_ncyvw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5y4e4"]
 
@@ -20,7 +20,7 @@ shape = SubResource("RectangleShape2D_5y4e4")
 occluder = SubResource("OccluderPolygon2D_oeanq")
 
 [node name="Label" type="Label" parent="."]
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

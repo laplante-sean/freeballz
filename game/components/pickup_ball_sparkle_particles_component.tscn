@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c4807a51od60v"]
 
-[ext_resource type="Script" path="res://game/components/pickup_ball_sparkle_particles_component.gd" id="1_dk4h0"]
+[ext_resource type="Script" uid="uid://dgsv265t1dnr2" path="res://game/components/pickup_ball_sparkle_particles_component.gd" id="1_dk4h0"]
 
 [sub_resource type="Curve" id="Curve_1waxq"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.608333, 0.75432), -0.887865, -0.887865, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -27,7 +27,8 @@ collision_bounce = 0.25
 collision_use_scale = true
 
 [node name="PickupBallSparkleParticlesComponent" type="GPUParticles2D"]
-process_material = SubResource("ParticleProcessMaterial_fslsc")
+amount = 7
 lifetime = 1.5
 explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_fslsc")
 script = ExtResource("1_dk4h0")

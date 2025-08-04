@@ -5,7 +5,7 @@ class_name CoinSparkleParticlesComponent
 
 
 func _ready():
-    emitting = true
     one_shot = true
     modulate = color
     finished.connect(queue_free)
+    set_deferred("emitting", true)

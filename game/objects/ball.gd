@@ -74,8 +74,8 @@ func collect():
     set_collision_layer_value(4, false)
     drop()
     player_stats.balls += 1
-    
-    var inst = PickupBallSparkleParticlesComponentScene.instantiate()
+
+    var inst = PickupBallSparkleParticlesComponentScene.instantiate() as PickupBallSparkleParticlesComponent
     get_tree().current_scene.add_child(inst)
     inst.global_position = global_position
 

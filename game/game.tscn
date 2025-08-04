@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=3 uid="uid://doc1xbj2ntru5"]
 
-[ext_resource type="Script" path="res://game/game.gd" id="1"]
+[ext_resource type="Script" uid="uid://b6sxmiww0eo2s" path="res://game/game.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dkw4tlmudbssg" path="res://game/hud/hud.tscn" id="2_1u6pm"]
-[ext_resource type="Script" path="res://game/components/launch_point_component.gd" id="3_iypvm"]
-[ext_resource type="Script" path="res://game/components/go_back_handler_componenet.gd" id="4_nxcnk"]
-[ext_resource type="Script" path="res://game/components/camera_shake_component.gd" id="5_7pdcy"]
+[ext_resource type="Script" uid="uid://bwmtxo5x7n875" path="res://game/components/launch_point_component.gd" id="3_iypvm"]
+[ext_resource type="Script" uid="uid://dtqau4mhetlbu" path="res://game/components/go_back_handler_componenet.gd" id="4_nxcnk"]
+[ext_resource type="Script" uid="uid://bt5yuov7g4ovs" path="res://game/components/camera_shake_component.gd" id="5_7pdcy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gvo4e"]
 size = Vector2(1080, 100)
@@ -73,6 +73,8 @@ script = ExtResource("4_nxcnk")
 [node name="CameraShakeComponent" type="Node" parent="." node_paths=PackedStringArray("camera_2d")]
 script = ExtResource("5_7pdcy")
 camera_2d = NodePath("../Camera2D")
+
+[node name="PreloadParticles" type="Node2D" parent="."]
 
 [connection signal="balls_down_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_balls_down_button_pressed"]
 [connection signal="fire_ball_button_pressed" from="HUDLayer/HUD" to="." method="_on_hud_fire_ball_button_pressed"]

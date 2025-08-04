@@ -17,7 +17,7 @@ func _ready():
     tween.chain().tween_property(self, "current_radius", game_stats.scatter_orb_animation_radius_start, 0.05)
 
 
-func _process(delta):
+func _process(_delta):
     queue_redraw()
 
 
@@ -38,16 +38,10 @@ func get_color() -> Color:
     return Color.from_hsv(hue, game_stats.block_saturation / 100.0, game_stats.block_brightness / 100.0)
 
 
-func _on_body_entered(body):
-    if not body is Ball:
-        return
-    if body in entered_bodies:
-        return
-    entered_bodies.append(body)
-
+func scatter_ball(body):
     var game_scene: Game = get_tree().current_scene
     var launch_point = game_scene.launch_point
-    
+
     for _idx in range(game_stats.scatter_orb_count):
         var ball = BallScene.instantiate()
 
@@ -66,3 +60,12 @@ func _on_body_entered(body):
         ball.global_position = global_position
         ball.fire(dir)
         game_scene.balls_out += 1
+
+
+func _on_body_entered(body):
+    if not body is Ball:
+        return
+    if body in entered_bodies:
+        return
+    entered_bodies.append(body)
+    call_deferred("scatter_ball", body)
